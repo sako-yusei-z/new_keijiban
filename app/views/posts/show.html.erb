@@ -1,0 +1,46 @@
+<h2><%= @post.title %></h2>
+<p class="post_time"><%= @post.created_at.strftime("作成日時 %Y年%m月%d日 %H時%M分") %></p>
+<p class="post_time"><%= @post.updated_at.strftime("更新日時 %Y年%m月%d日 %H時%M分") %></p>
+<p>作成者<%= @post.user.username %></p>
+<p><%= simple_format @post.body.gsub(/(http[ -~｡-ﾟ]*)/) {link_to $1, $1} %></p>
+<p>コメント</p>
+<% if @post.comments.any? %>
+<ol>
+  <% @post.comments.each do |comment| %>
+  <li>
+    <%= comment.body %>
+    <%= comment.created_at.strftime(" :%Y年%m月%d日 %H時%M分") %>
+    <%= comment.user.username %>
+    <% if user_signed_in? %>
+    <%= form_for ([@user, @post, comment, comment.replies.build]) do |f| %>
+      <%= f.text_field :body %>
+      <%= f.hidden_field :user_id, Value: current_user.id %>
+      <%= f.submit "返信" %>
+    <% end %>
+    <% end %>
+    <ul>
+      <% comment.replies.each  do |reply| %>
+      <% if reply.body.nil? %>
+      <% else %>
+        <li>
+          <%= reply.body %>
+          <%= reply.created_at.strftime(" :%Y年%m月%d日 %H時%M分") %>
+          ユーザー:<%= reply.user.username %>
+        </li>
+      <% end %>
+      <% end %>
+    </ul>
+  </li>
+  <% end %>
+</ol>
+<% end %>
+
+<% if user_signed_in? %>
+<p>
+  <%= form_for ([@user, @post, @post.comments.build]) do |f| %>
+  <%= f.text_field :body %>
+  <%= f.hidden_field :user_id, Value: current_user.id %>
+  <%= f.submit "コメントする" %>
+  <% end %>
+</p>
+<% end %>

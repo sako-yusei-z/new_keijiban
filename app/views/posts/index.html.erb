@@ -1,0 +1,12 @@
+<h2>ユーザー</h2>
+<%= link_to "ログイン", edit_user_password_path %>
+<% if user_signed_in? %>
+
+<% else %>
+<%= link_to "新規", new_user_post_path %>
+<% end %>
+<ul>
+  <% @posts.order(created_at: :desc).each do |post| %>
+  <li><%= link_to post.title, user_post_path(@user, post) %></li>
+  <% end %>
+</ul>

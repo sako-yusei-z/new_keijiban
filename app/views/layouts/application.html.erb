@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>K-board</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+      <h1><%= link_to image_tag('logo.png', class: 'logo'), root_path %></h1>
+      <% if user_signed_in? %>
+        <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+        <%= link_to "新規", new_user_post_path(user_id: current_user.id) %>
+        <p>ようこそ <%= current_user.username %> さん</p>
+      <% else %>
+        <%= link_to 'アカウント登録', new_user_registration_path %>
+        <%= link_to 'ログイン', new_user_session_path %>
+      <% end %>
+    </header>
+    <%= yield %>
+  </body>
+</html>
