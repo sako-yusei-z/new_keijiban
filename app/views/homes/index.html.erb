@@ -14,6 +14,7 @@
     <%= link_to post.title, user_post_path(@user, post) %>
     作成者[<%= post.user.username %>]
     コメント数(<%= post.comments.count %>)
+    <!-- ログイン時のみ表示 -->
     <% if user_signed_in? %>
       <% if post.user_id == current_user.id %>
       <%= link_to "[編集]", edit_user_post_path(@user, post) %>

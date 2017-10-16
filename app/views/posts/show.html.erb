@@ -1,16 +1,21 @@
+<!-- スレッド内容表示 -->
 <h2><%= @post.title %></h2>
 <p class="post_time"><%= @post.created_at.strftime("作成日時 %Y年%m月%d日 %H時%M分") %></p>
 <p class="post_time"><%= @post.updated_at.strftime("更新日時 %Y年%m月%d日 %H時%M分") %></p>
 <p>作成者<%= @post.user.username %></p>
 <p><%= simple_format @post.body.gsub(/(http[ -~｡-ﾟ]*)/) {link_to $1, $1} %></p>
+<!-- コメント関連表示 -->
 <p>コメント</p>
 <% if @post.comments.any? %>
 <ol>
   <% @post.comments.each do |comment| %>
   <li>
+    <!-- スレッドへのコメント一覧表示 -->
     <%= comment.body %>
     <%= comment.created_at.strftime(" :%Y年%m月%d日 %H時%M分") %>
     <%= comment.user.username %>
+    <!-- コメント返信入力 -->
+    <!-- ログイン時のみ表示 -->
     <% if user_signed_in? %>
     <%= form_for ([@user, @post, comment, comment.replies.build]) do |f| %>
       <%= f.text_field :body %>
@@ -18,6 +23,7 @@
       <%= f.submit "返信" %>
     <% end %>
     <% end %>
+    <!-- コメントへの返信一覧表示 -->
     <ul>
       <% comment.replies.each  do |reply| %>
       <% if reply.body.nil? %>
@@ -34,7 +40,8 @@
   <% end %>
 </ol>
 <% end %>
-
+<!-- 記事へのコメント入力 -->
+<!-- ログイン時のみ表示 -->
 <% if user_signed_in? %>
 <p>
   <%= form_for ([@user, @post, @post.comments.build]) do |f| %>
