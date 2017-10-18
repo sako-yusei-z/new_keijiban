@@ -10,26 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016081821) do
+ActiveRecord::Schema.define(version: 20171016023544) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "body"
+    t.string "body", limit: 60
     t.bigint "post_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "post_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "post_id"
-    t.integer "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id", "tag_id"], name: "index_post_tags_on_post_id_and_tag_id", unique: true
-    t.index ["post_id"], name: "index_post_tags_on_post_id"
-    t.index ["tag_id"], name: "index_post_tags_on_tag_id"
   end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -42,7 +32,7 @@ ActiveRecord::Schema.define(version: 20171016081821) do
   end
 
   create_table "replies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "body"
+    t.string "body", limit: 60
     t.bigint "user_id"
     t.bigint "post_id"
     t.bigint "comment_id"
@@ -53,27 +43,20 @@ ActiveRecord::Schema.define(version: 20171016081821) do
     t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
-  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "name", limit: 60
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_tags_on_name", unique: true
-  end
-
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
+    t.string "email", limit: 80, default: "", null: false
+    t.string "encrypted_password", limit: 300, default: "", null: false
+    t.string "reset_password_token", limit: 300
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
+    t.string "current_sign_in_ip", limit: 40
+    t.string "last_sign_in_ip", limit: 40
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "username", limit: 20
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
