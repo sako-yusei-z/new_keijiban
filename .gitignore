@@ -8,7 +8,7 @@ ee https://help.github.com/articles/ignoring-files for more about ignoring files
 /.bundle
 
 # Ignore bundler gems.
-vendor/bundler
+vendor/bundle
 
 # ファイル
 .DS_Store
