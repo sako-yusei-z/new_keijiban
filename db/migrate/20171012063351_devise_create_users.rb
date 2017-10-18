@@ -2,22 +2,22 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
   def change
     create_table :users do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: "", limit: 100
-      t.string :encrypted_password, null: false, default: "", limit: 40
+      t.string :email,              null: false, default: "", limit: 80 # userのEmail
+      t.string :encrypted_password, null: false, default: "", limit: 300 # ログイン時の認証パスワード
 
       ## Recoverable
-      t.string   :reset_password_token, limit: 40
-      t.datetime :reset_password_sent_at
+      t.string   :reset_password_token, limit: 300 # パスワードリセット時のトークン
+      t.datetime :reset_password_sent_at # パスワードリセット時の通知時間
 
       ## Rememberable
-      t.datetime :remember_created_at
+      t.datetime :remember_created_at # 保存されたcookieからユーザーを記憶
 
       ## Trackable
-      t.integer  :sign_in_count, default: 0, null: false
-      t.datetime :current_sign_in_at
-      t.datetime :last_sign_in_at
-      t.string   :current_sign_in_ip, limit: 40
-      t.string   :last_sign_in_ip, limit: 40
+      t.integer  :sign_in_count, default: 0, null: false # userのサインイン回数
+      t.datetime :current_sign_in_at # userのサインイン時間
+      t.datetime :last_sign_in_at # 最後にサインインしたuserの時間
+      t.string   :current_sign_in_ip, limit: 40 # サインイン時のuserのIPアドレス
+      t.string   :last_sign_in_ip, limit: 40 # 最後にサインインしたuserのIPアドレス
 
       ## Confirmable
       # t.string   :confirmation_token
