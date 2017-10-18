@@ -1,5 +1,6 @@
 class Reply < ApplicationRecord
   belongs_to :user
+  belongs_to :post
   belongs_to :comment
 
   validates :body, presence: true, length: { in: 1..30 }
