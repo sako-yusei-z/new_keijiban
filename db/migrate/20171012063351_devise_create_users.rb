@@ -1,23 +1,23 @@
 class DeviseCreateUsers < ActiveRecord::Migration[5.1]
   def change
-    create_table :users do |t|
+    create_table :users, comment: 'ユーザー' do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: "", limit: 100
-      t.string :encrypted_password, null: false, default: "", limit: 40
+      t.string :email,              null: false, default: "", limit: 100, comment: 'ユーザーのメールアドレス'
+      t.string :encrypted_password, null: false, default: "", limit: 100, comment: 'ユーザーのパスワード'
 
       ## Recoverable
-      t.string   :reset_password_token, limit: 40
-      t.datetime :reset_password_sent_at
+      t.string   :reset_password_token, limit: 100, comment: 'パスワードリセット時のトークン'
+      t.datetime :reset_password_sent_at, comment: 'パスワードリセット時の時間'
 
       ## Rememberable
-      t.datetime :remember_created_at
+      t.datetime :remember_created_at, comment: 'ユーザーを記憶するための時間'
 
       ## Trackable
-      t.integer  :sign_in_count, default: 0, null: false
-      t.datetime :current_sign_in_at
-      t.datetime :last_sign_in_at
-      t.string   :current_sign_in_ip, limit: 40
-      t.string   :last_sign_in_ip, limit: 40
+      t.integer  :sign_in_count, default: 0, null: false, comment: 'ログイン回数'
+      t.datetime :current_sign_in_at, comment: 'ログイン時間'
+      t.datetime :last_sign_in_at, comment: '最後にログインした時間'
+      t.string   :current_sign_in_ip, limit: 100, comment: 'ログイン時のIPアドレス'
+      t.string   :last_sign_in_ip, limit: 100, comment: '最後のログイン時のIPアドレス'
 
       ## Confirmable
       # t.string   :confirmation_token
