@@ -1,5 +1,5 @@
 class AddColumnsToUsers < ActiveRecord::Migration[5.1]
   def change
-    add_column :users, :username, :string, limit: 20
+    add_column :users, :username, :string, limit: 20, comment: 'ユーザーの名前'
   end
 end
