@@ -1,4 +1,9 @@
 class PostsController < ApplicationController
+  def index
+    @user = current_user
+    @posts = Post.search(params[:search])
+  end
+  
   def show
     @user = current_user
     @post = Post.find(params[:id])
