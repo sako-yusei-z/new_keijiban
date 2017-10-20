@@ -19,7 +19,8 @@
     <% if user_signed_in? %>
     <%= form_for ([@user, @post, comment, comment.replies.build]) do |f| %>
       <%= f.text_field :body %>
-      <%= f.hidden_field :user_id, Value: current_user %>
+      <%= f.hidden_field :user_id, Value: current_user.id %>
+      <%= f.hidden_field :post_id, Value: @post.id %>
       <%= f.submit '返信' %>
     <% end %>
     <% end %>
