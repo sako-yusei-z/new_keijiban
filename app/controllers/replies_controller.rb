@@ -5,6 +5,7 @@ class RepliesController < ApplicationController
     @comment = Comment.find(params[:comment_id])
     @comment.replies.new(reply_params)
     @comment.save
+    
     @post.touch
     @post.save
 
