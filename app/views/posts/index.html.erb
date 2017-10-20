@@ -1,0 +1,31 @@
+<%= form_tag user_posts_path(@user), :method => 'get' do %>
+<p>
+<%= text_field_tag :search, params[:search] %>
+<%= submit_tag "Search", :title => nil %>
+</p>
+<% end %>
+<% @posts.order(created_at: :desc).each do |post| %>
+<li>
+  <%= link_to post.title, user_post_path(@user, post) %>
+  作成者[<%= post.user.username %>]
+  コメント数(<%= post.comments.count + post.replies.count %>)
+  <!-- ログイン時のみ表示 -->
+  <% if user_signed_in? %>
+    <% if post.user_id == current_user.id %>
+    <%= link_to '[編集]', edit_user_post_path(@user, post) %>
+    <%= link_to '[削除]',
+      user_post_path(@user, post),
+      method: :delete,
+      data: { confirm: '本当に削除しますか？' } %>
+    <% end %>
+  <% end %>
+</li>
+<% end %>
+<!-- タグ用検索
+<%# @posts.order(created_at: :desc).each do |comment| %>
+<li>
+  <%# link_to comment.post.title, user_post_path(@user, id: comment.post.id) %>
+  作成者[<%# comment.user.username %>]
+</li>
+<%# end %>
+-->
