@@ -1,9 +1,13 @@
 class PostsController < ApplicationController
   def index
-    @user = current_user
+    if user_signed_in?
+      @user = current_user
+    else
+      @user = User.find_by(params[:user_id])
+    end
     @posts = Post.search(params[:search])
   end
-  
+
   def show
     @user = current_user
     @post = Post.find(params[:id])
