@@ -5,7 +5,7 @@ class RepliesController < ApplicationController
     @comment = Comment.find(params[:comment_id])
     @comment.replies.new(reply_params)
     @comment.save
-    
+
     @post.touch
     @post.save
 
@@ -13,8 +13,8 @@ class RepliesController < ApplicationController
   end
 
   private
-  
+
   def reply_params
-    params.require(:reply).permit(:body, :user_id)
+    params.require(:reply).permit(:body, :user_id, :post_id)
   end
 end
