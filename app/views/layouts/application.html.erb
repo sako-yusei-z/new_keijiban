@@ -13,13 +13,13 @@
       <h1><%= link_to image_tag('logo.png', class: 'logo'), root_path %></h1>
       <% if user_signed_in? %>
         <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-        <%= link_to '新規', new_user_post_path(user_id: current_user.id) %>
+        <%= link_to '新規', new_post_path %>
         <p>ようこそ <%= current_user.username %> さん</p>
       <% else %>
         <%= link_to 'アカウント登録', new_user_registration_path %>
         <%= link_to 'ログイン', new_user_session_path %>
       <% end %>
-      <%= link_to '検索', user_posts_path(user_id: User.find_by(params[:id])) %>
+      <%= link_to '検索', posts_path %>
     </header>
     <%= yield %>
   </body>
