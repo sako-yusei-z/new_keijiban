@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016023544) do
+ActiveRecord::Schema.define(version: 20171025060631) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "スレッドのコメント" do |t|
     t.string "body", limit: 60, comment: "コメント内容"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 20171016023544) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "post_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "postとtagの中間テーブル" do |t|
+    t.integer "post_id"
+    t.integer "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "スレッド" do |t|
@@ -41,6 +48,13 @@ ActiveRecord::Schema.define(version: 20171016023544) do
     t.index ["comment_id"], name: "index_replies_on_comment_id"
     t.index ["post_id"], name: "index_replies_on_post_id"
     t.index ["user_id"], name: "index_replies_on_user_id"
+  end
+
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "スレッドのタグ" do |t|
+    t.string "category", limit: 100, comment: "タグ"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_tags_on_category", unique: true
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "ユーザー" do |t|
