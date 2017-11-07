@@ -1,14 +1,15 @@
 <h2>編集画面</h2>
-<%= form_for @post, url: user_post_path(@post) do |f| %>
+<%= form_for @post, url: post_path(@post) do |f| %>
 <h3>タイトル</h3>
 <p><%= f.text_field :title, size: '55' %></p>
 <h3>内容</h3>
 <p>
   <%= f.text_area :body, size: '53x10' %>
-  <% if @user.errors.any? %>
-  <p class='error'>文字数が多すぎるか、空欄があります。</p>
-  <% end %>
 </p>
+<h3>タグ(カンマ区切り)</h3>
+<%= f.fields_for :tags do |tag| %>
+<%= tag.text_field :category, size: '55' %>
+<% end %>
 <p>
   <%= f.submit '更新' %>
 </p>
