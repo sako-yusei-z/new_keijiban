@@ -2,10 +2,14 @@
 <h2><%= @post.title %></h2>
 <p class='post_time'><%= @post.created_at.strftime('作成日時 %Y年%m月%d日 %H時%M分') %></p>
 <p class='post_time'><%= @post.updated_at.strftime('更新日時 %Y年%m月%d日 %H時%M分') %></p>
-<p>作成者<%= @post.user.username %></p>
+<h3>作成者 <%= @post.user.username %></h3>
 <p><%= simple_format @post.body.gsub(/(http[ -~｡-ﾟ]*)/) {link_to $1, $1} %></p>
+<h3>タグ</h3>
+<% @tag.each do |tag| %>
+<%= tag.category %>
+<% end %>
 <!-- コメント関連表示 -->
-<p>コメント</p>
+<h3>コメント</h3>
 <% if @post.comments.any? %>
 <ol>
   <% @post.comments.each do |comment| %>
@@ -17,7 +21,7 @@
     <!-- コメント返信入力 -->
     <!-- ログイン時のみ表示 -->
     <% if user_signed_in? %>
-    <%= form_for ([@user, @post, comment, comment.replies.build]) do |f| %>
+    <%= form_for ([@post, comment, comment.replies.build]) do |f| %>
       <%= f.text_field :body %>
       <%= f.hidden_field :user_id, Value: current_user.id %>
       <%= f.hidden_field :post_id, Value: @post.id %>
@@ -45,7 +49,7 @@
 <!-- ログイン時のみ表示 -->
 <% if user_signed_in? %>
 <p>
-  <%= form_for ([@user, @post, @post.comments.build]) do |f| %>
+  <%= form_for ([@post, @post.comments.build]) do |f| %>
   <%= f.text_field :body %>
   <%= f.hidden_field :user_id, Value: current_user.id %>
   <%= f.submit 'コメントする' %>
