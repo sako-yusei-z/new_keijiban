@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20171025060631) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "tag", comment: "スレッドのタグ"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
