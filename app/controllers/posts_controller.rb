@@ -16,29 +16,18 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @post.tags.build
+    tag = Tag.new
+    @post.tags << tag
   end
 
   def create
     @user = current_user
+    @tag = params[:post][:tags_attributes]['0'][:category]
+    tag = Tag.find_or_create_by(category: @tag)
     @post = @user.posts.build(post_params)
-    @category = params[:post][:tags_attributes]['0'][:category].split(',')
-    any = @category
-    @category.count.times do |i|
-      if @tag = Tag.find_by(category: any[i])
-        @tag.update_attributes(updated_at: Time.zone.now)
-      end
-    end
+    @post.tags << tag
     @post.save
-    @category.count.times do |i|
-      if @tag = Tag.find_by(category: any[i])
-        PostTag.create(post_id: @post.id, tag_id: @tag.id)
-      else
-        Tag.create(category: any[i])
-        @new_tag = Tag.find_by(category: any[i])
-        PostTag.create(post_id: @post.id, tag_id: @new_tag.id)
-      end
-    end
+    
     return redirect_to root_path
   end
 
