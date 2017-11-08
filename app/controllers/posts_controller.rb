@@ -1,12 +1,6 @@
 class PostsController < ApplicationController
   def index
-    if params[:post_search] == 'title'
-      @posts = Post.title_search(params[:search])
-    elsif params[:post_search] == 'tag'
-      @posts = Post.tag_search(params[:search])
-    else
-      @posts = Post.all
-    end
+    @post = Post.search(params[:search], params[:search_type])
   end
 
   def show
@@ -16,19 +10,17 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    tag = Tag.new
-    @post.tags << tag
+    @post.tags.build
   end
 
   def create
     @user = current_user
-    @tag = params[:post][:tags_attributes]['0'][:category]
-    tag = Tag.find_or_create_by(category: @tag)
     @post = @user.posts.build(post_params)
-    @post.tags << tag
-    @post.save
-    
-    return redirect_to root_path
+    if @post.save
+      return redirect_to root_path
+    else
+      return render 'new'
+    end
   end
 
   def edit
@@ -53,7 +45,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, tags_attributes: [:id, :category])
   end
 
   def update_params
