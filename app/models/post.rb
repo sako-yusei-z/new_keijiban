@@ -11,15 +11,13 @@ class Post < ApplicationRecord
   validates :title, presence: true, length: { in: 1..30 }
   validates :body, presence: true, length: { in: 1..300 }
 
-  def self.title_search(search)
-    @posts = Post.where(['title LIKE ?', "%#{search}%"])
-  end
-
-  def self.tag_search(search)
-    if search.blank?
-      @posts = Post.all
+  def self.search(search, search_type)
+    if search_type == 'title'
+      @post = self.where(['title LIKE ?', "%#{search}%"])
+    elsif search_type == 'tag'
+      @post = self.joins(:tags).where(["category LIKE ?", "%#{search}%"]).uniq
     else
-      @posts = Post.joins(:tags).where(["category LIKE ?", "%#{search}%"])
+      @post = self.all
     end
   end
 end
