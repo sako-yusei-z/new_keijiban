@@ -2,5 +2,5 @@ class Tag < ApplicationRecord
   has_many :post_tags, dependent: :destroy
   has_many :posts, through: :post_tags, dependent: :destroy
 
-  validates :category, length: { maximum: 50 }
+  validates :category, length: { maximum: 50 }, uniqueness: true
 end
