@@ -15,8 +15,14 @@ class PostsController < ApplicationController
 
   def create
     @user = current_user
-    @post = @user.posts.build(post_params)
+    @post = @user.posts.build(post_tag_params)
+    @tag = params[:post][:tags_attributes]['0'][:category]
     if @post.save
+      return redirect_to root_path
+    elsif tag = Tag.find_by(category: @tag)
+      @post = @user.posts.build(post_params)
+      @post.tags << tag
+      @post.save
       return redirect_to root_path
     else
       return render 'new'
@@ -45,6 +51,10 @@ class PostsController < ApplicationController
   private
 
   def post_params
+    params.require(:post).permit(:title, :body)
+  end
+
+  def post_tag_params
     params.require(:post).permit(:title, :body, tags_attributes: [:id, :category])
   end
 
