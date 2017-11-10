@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20171025060631) do
     t.string "category", limit: 100, comment: "タグ"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_tags_on_category", unique: true
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", comment: "ユーザー" do |t|
@@ -70,7 +71,8 @@ ActiveRecord::Schema.define(version: 20171025060631) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username", limit: 20, comment: "ユーザーの名前"
-    t.index ["email", "reset_password_token"], name: "index_users_on_email_and_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["encrypted_password"], name: "index_users_on_encrypted_password", unique: true
   end
 
   add_foreign_key "comments", "posts"
