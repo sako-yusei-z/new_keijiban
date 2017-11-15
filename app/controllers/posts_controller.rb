@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def index
-    @post = Post.search(params[:search], params[:search_type])
+    @posts = Post.search(params[:search], params[:search_type])
   end
 
   def show
@@ -17,13 +17,16 @@ class PostsController < ApplicationController
     @user = current_user
     @post = @user.posts.build(post_tag_params)
     @tag = params[:post][:tags_attributes]['0'][:category]
-    if @post.save
-      return redirect_to root_path
-    elsif tag = Tag.find_by(category: @tag)
+    if tag = Tag.find_by(category: @tag)
       @post = @user.posts.build(post_params)
       @post.tags << tag
-      @post.save
-      return redirect_to root_path
+      if @post.save
+        return redirect_to root_path
+      else
+        return render 'new'
+      end
+    elsif @post.save
+        return redirect_to root_path
     else
       return render 'new'
     end
