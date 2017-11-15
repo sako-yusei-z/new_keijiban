@@ -8,7 +8,7 @@
   <%= submit_tag 'で検索', :title => nil %>
 </p>
 <% end %>
-<% @post.each do |post| %>
+<% @posts.each do |post| %>
 <li>
   <%= link_to post.title, post_path(post) %>
   作成者[<%= post.user.username %>]
