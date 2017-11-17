@@ -1,6 +1,4 @@
 class PostsController < ApplicationController
-  include Common
-
   def index
     @posts = Post.search(params[:search], params[:search_type])
   end
@@ -16,12 +14,19 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = current_user.posts.build(post_params)
-    if overlop_tag
-      @post.tags << overlop_tag
-    end
-    if @post.save
-      return redirect_to root_path
+    @user = current_user
+    @post = @user.posts.build(post_tag_params)
+    @tag = params[:post][:tags_attributes]['0'][:category]
+    if tag = Tag.find_by(category: @tag)
+      @post = @user.posts.build(post_params)
+      @post.tags << tag
+      if @post.save
+        return redirect_to root_path
+      else
+        return render 'new'
+      end
+    elsif @post.save
+        return redirect_to root_path
     else
       return render 'new'
     end
@@ -49,11 +54,11 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    if overlop_tag
-      params.require(:post).permit(:title, :body)
-    else
-      params.require(:post).permit(:title, :body, tags_attributes: [:id, :category])
-    end
+    params.require(:post).permit(:title, :body)
+  end
+
+  def post_tag_params
+    params.require(:post).permit(:title, :body, tags_attributes: [:id, :category])
   end
 
   def update_params
