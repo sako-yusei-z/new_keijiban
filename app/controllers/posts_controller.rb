@@ -14,19 +14,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @user = current_user
-    @post = @user.posts.build(post_tag_params)
-    @tag = params[:post][:tags_attributes]['0'][:category]
-    if tag = Tag.find_by(category: @tag)
-      @post = @user.posts.build(post_params)
-      @post.tags << tag
-      if @post.save
-        return redirect_to root_path
-      else
-        return render 'new'
-      end
-    elsif @post.save
-        return redirect_to root_path
+    @post = current_user.posts.build(post_tag_params)
+    if overlap_tag = Tag.find_by(category: params[:post][:tags_attributes]['0'][:category])
+      @post = current_user.posts.build(post_params)
+      @post.tags << overlap_tag
+    end
+    if @post.save
+      return redirect_to root_path
     else
       return render 'new'
     end
