@@ -1,14 +1,14 @@
 <%= form_tag posts_path, :method => 'get' do %>
 <p>
-  <%= radio_button_tag :post_search,  'title', :checked => 'checked' %>
+  <%= radio_button_tag :search_type, :title %>
   <%= label_tag :post_search_title, 'タイトル検索' %>
-  <%= radio_button_tag :post_search, 'tag' %>
+  <%= radio_button_tag :search_type, :tag %>
   <%= label_tag :post_search_tag, 'タグ検索' %>
   <%= text_field_tag :search, params[:search] %>
   <%= submit_tag 'で検索', :title => nil %>
 </p>
 <% end %>
-<% @posts.order(created_at: :desc).each do |post| %>
+<% @posts.each do |post| %>
 <li>
   <%= link_to post.title, post_path(post) %>
   作成者[<%= post.user.username %>]

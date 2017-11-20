@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20171025060631) do
     t.datetime "updated_at", null: false
     t.string "username", limit: 20, comment: "ユーザーの名前"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["encrypted_password"], name: "index_users_on_encrypted_password", unique: true
   end
 
   add_foreign_key "comments", "posts"
