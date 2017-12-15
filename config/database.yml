@@ -10,7 +10,7 @@ development:
   database: k_borad
   pool: 5
   username: root
-  password: Agit919555
+  password:
   host: localhost
 
 
@@ -23,7 +23,7 @@ test:
   database: k_borad_test
   pool: 5
   username: root
-  password: Agit919555
+  password: 
   host: localhost
 
 production:
@@ -32,7 +32,7 @@ production:
   database: k_borad_db
   pool: 5
   username: root
-  password: Agit919555
+  password:
   host: localhost
 
 sako:
